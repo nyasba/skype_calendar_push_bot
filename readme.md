@@ -10,12 +10,19 @@ GoogleCalendarから予定を取得し、毎日Skypeへ通知するbot
 
 ### 取得元のiCal設定
 
-未対応
+Googleの開発者コンソールで登録する
+https://code.google.com/apis/console#:access
+
+1. プロジェクトを作成する
+2. サービスアカウントを作成するボタンを押す
+3. 「新しい秘密鍵の提供 」をチェックしてキー情報が含まれるjsonとサービスアカウントIDを取得
+
+さらに、カレンダーの共有設定でこの時作ったサービスアカウントIDに対してカレンダーの共有設定を行う必要がある
 
 
 ### MicrosoftBotFrameworkでMyBotの登録を行う
 
-SkypeBotFrameworkはMicrosoftBotFrameworkに統合されるので、以下から登録する
+SkypeBotFrameworkはMicrosoftBotFrameworkに統合されるので、以下から登録する  
 https://dev.botframework.com/
 
 1. 「Register a bot」メニュー

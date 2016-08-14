@@ -6,7 +6,7 @@ from apiclient.discovery import build
 import gcal_config as g
 
 #-----------------------------------------------------------------
-# Skypeに投稿する
+# GoogleCalendarからイベント情報を取得する
 #-----------------------------------------------------------------
 class GoogleCalendarAdapter:
 	

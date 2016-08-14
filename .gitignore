@@ -1,4 +1,4 @@
 src/*_config.py
 src/*.pyc
-requests
-requests-*
+src/requests
+src/requests-*

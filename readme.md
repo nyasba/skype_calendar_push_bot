@@ -8,7 +8,7 @@ GoogleCalendarから予定を取得し、毎日Skypeへ通知するbot
 
 ## 環境設定
 
-### 取得元のGoogleCalendar設定
+### 取得元のiCal設定
 
 未対応
 
@@ -41,7 +41,7 @@ cp src/skype_config_original.py src/skype_config.py
 ## 実行方法
 
 ```
-pip install -r requirements.txt -t <this directory>
+pip install -r requirements.txt -t ./src
 python src/calendar_push_bot.py 
 ```
 

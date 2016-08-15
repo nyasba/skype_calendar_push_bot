@@ -28,18 +28,16 @@ class ICalAdapter:
 		return True if event.x_confluence_subcalendar_type.value == 'other' else False
 	
 	def __today(self, event, today):
-		return self.__today_check(event.dtstart.value, event.dtend.value, today)
+		return self.__today_check(event.dtstart.value, today)
 	
-	def __today_check(self, start, end, today):
+	def __today_check(self, start, today):
 		""" 今日開催されるイベントかどうか """
-		if isinstance(start, datetime) and isinstance(end, datetime):
+		if isinstance(start, datetime):
 			start_date = self.__to_jst(start).date()
-			end_date = self.__to_jst(end).date()
-			return start_date <= today and today <= end_date
+			return start_date == today
 		
-		if isinstance(start, date) and isinstance(end, date):
-			return start <= today and today <= end
-			
+		if isinstance(start, date):
+			return start == today
 		return False
 	
 	

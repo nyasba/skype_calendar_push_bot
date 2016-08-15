@@ -7,7 +7,7 @@ from datetime import date
 def lambda_handler(event, context):
 	"""Lambda使う場合のエントリポイント"""
 	
-	today = date.today
+	today = date.today()
 	message_list =  ICalAdapter().getTodaysInternalEventList(today)
 
 	if message_list:

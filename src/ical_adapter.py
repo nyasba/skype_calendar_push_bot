@@ -20,6 +20,15 @@ class ICalAdapter:
 		
 		return [ self.__convert_message(e)  for e in todays_internal_events ]
 	
+	def getTodaysExternalEventList(self, today):
+		""" 今日開催される外部イベントリストを返却する """
+		
+		c = vobject.readOne(requests.get(i.URL).text)
+		todays_external_events = [ e for e in c.vevent_list if self.__external(e) and self.__today(e, today) ]
+		for e in todays_external_events:
+			print e.prettyPrint()
+		
+		return [ self.__convert_message(e)  for e in todays_external_events ]
 	
 	def __internal(self, event):
 		return True if event.x_confluence_subcalendar_type.value == 'custom' else False

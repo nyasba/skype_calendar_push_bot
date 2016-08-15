@@ -2,10 +2,13 @@
 
 import requests
 import json
-import skype_config as s
+#import skype_config as s
 
 class SkypeAdapter:
 	""" Skypeに投稿するためのAdapterClass """
+	
+	def __init__(self, skype_config):
+		self.s = skype_config
 	
 	def postConversation(self, message):
 		""" Skypeへメッセージを投稿する """
@@ -18,12 +21,12 @@ class SkypeAdapter:
 		headers = { 'Content-Type' : 'application/x-www-form-urlencoded' }
 		data = {
 			'grant_type' : 'client_credentials',
-			'client_id' : s.CLIENT_ID,
-			'client_secret' : s.CLIENT_SECRET,
-			'scope' : s.SCOPE
+			'client_id' : self.s.CLIENT_ID,
+			'client_secret' : self.s.CLIENT_SECRET,
+			'scope' : self.s.SCOPE
 		}
 		 
-		access_token_response = requests.post( s.AUTH_URL, headers=headers, data=data )
+		access_token_response = requests.post( self.s.AUTH_URL, headers=headers, data=data )
 
 		if access_token_response.status_code != 200 :
 			print access_token_response.headers
@@ -46,7 +49,7 @@ class SkypeAdapter:
 			'text' : message
 		}
 		
-		response = requests.post( s.POST_URL, headers=headers, json=data)
+		response = requests.post( self.s.POST_URL, headers=headers, json=data)
 		
 		if response.status_code != 201 :
 			print response.status_code

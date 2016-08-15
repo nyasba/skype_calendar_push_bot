@@ -1,16 +1,20 @@
-GoogleCalendarから予定を取得し、毎日Skypeへ通知するbot
+iCalendar形式のデータから予定を取得し、毎日Skypeへ通知するbot
 
 ## 機能
 
 1. ~~CloudWatchEventで以下の機能を持つLambdaFunctionを起動する~~
-2. ~~GoogleCalendarから本日の予定を取得する~~
+2. iCalから本日の予定を取得する
 3. 取得した情報を、SkypeへMicrosoftBotFrameworkのRESTAPIで投稿する
 
 ## 環境設定
 
 ### 取得元のiCal設定
 
-未対応
+URLを取得できていればOK。設定ファイルをコピーして、URLを更新する
+
+```
+cp src/ical_config_original.py src/ical_config.py
+```
 
 
 ### MicrosoftBotFrameworkでMyBotの登録を行う

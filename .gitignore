@@ -1,4 +1,8 @@
 src/*_config.py
 src/*.pyc
-src/requests
-src/requests-*
+src/dateutil
+src/python_dateutil-*
+src/pytz*
+src/requests*
+src/vobject*
+src/six*

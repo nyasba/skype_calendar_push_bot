@@ -7,12 +7,11 @@ from pytz import timezone
 import requests
 import ical_config as i
 
-#-----------------------------------------------------------------
-# iCalから今日のイベント一覧を取得する
-#-----------------------------------------------------------------
 class ICalAdapter:
+	""" iCalendar形式のデータにアクセスするためのAdapterClass """
 	
 	def getTodaysInternalEventList(self, today):
+		""" 今日開催される内部イベントリストを返却する """
 		
 		c = vobject.readOne(requests.get(i.URL).text)
 		todays_internal_events = [ e for e in c.vevent_list if self.__internal(e) and self.__today(e, today) ]
@@ -32,6 +31,7 @@ class ICalAdapter:
 		return self.__today_check(event.dtstart.value, event.dtend.value, today)
 	
 	def __today_check(self, start, end, today):
+		""" 今日開催されるイベントかどうか """
 		if isinstance(start, datetime) and isinstance(end, datetime):
 			start_date = self.__to_jst(start).date()
 			end_date = self.__to_jst(end).date()
@@ -44,6 +44,7 @@ class ICalAdapter:
 	
 	
 	def __convert_message(self, event):
+		""" イベントを投稿用メッセージに変換する """
 		if event.description.value == "" :
 			return i.EVENT_FORMAT.format(
 				self.__convert_schedule_message(event.dtstart.value, event.dtend.value), 
@@ -57,7 +58,7 @@ class ICalAdapter:
 		)
 		
 	def __convert_schedule_message(self, start, end):
-		
+		""" 投稿用メッセージの日付部分を作成する """		
 		if isinstance(start, datetime) and isinstance(end, datetime):
 			start_jst = self.__to_jst(start)
 			end_jst = self.__to_jst(end)
@@ -71,7 +72,9 @@ class ICalAdapter:
 		return ""
 		
 	def __same_day(self, start, end):
+		""" startとendが同じ日かどうかを判定する """		
 		return True if start.date() == end.date() else False
 
 	def __to_jst(self, dt):
+		""" dtのタイムゾーンをJSTに変換する """		
 		return dt.astimezone(timezone('Asia/Tokyo'))

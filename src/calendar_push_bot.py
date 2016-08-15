@@ -4,12 +4,10 @@ from skype_adapter import SkypeAdapter
 from ical_adapter import ICalAdapter
 from datetime import date
 
-#-----------------------------------------------------------------
-# Lambda使う場合のエントリポイント
-#-----------------------------------------------------------------
 def lambda_handler(event, context):
-
-	today = date.today
+	"""Lambda使う場合のエントリポイント"""
+	
+	today = date.today()
 	message_list =  ICalAdapter().getTodaysInternalEventList(today)
 
 	if message_list:
@@ -17,10 +15,9 @@ def lambda_handler(event, context):
 		print message
 		SkypeAdapter().postConversation(message)
 
-#-----------------------------------------------------------------
-# コマンド実行のエントリポイント
-#-----------------------------------------------------------------
+
 if __name__ == "__main__":
+	"""コマンド実行のエントリポイント"""
 	
 	today = date(2016, 8, 16)
 	message_list =  ICalAdapter().getTodaysInternalEventList(today)

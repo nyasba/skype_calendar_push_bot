@@ -4,17 +4,16 @@ import requests
 import json
 import skype_config as s
 
-#-----------------------------------------------------------------
-# Skypeに投稿する
-#-----------------------------------------------------------------
 class SkypeAdapter:
+	""" Skypeに投稿するためのAdapterClass """
 	
 	def postConversation(self, message):
+		""" Skypeへメッセージを投稿する """
 		token = self.__auth()
 		self.__post( token, message )
 
 	def __auth(self):
-		# MicrosoftBotFrameworkのOAuthClient認証を行いaccess_tokenを取得する。
+		""" MicrosoftBotFrameworkのOAuthClient認証を行いaccess_tokenを取得する """
 		
 		headers = { 'Content-Type' : 'application/x-www-form-urlencoded' }
 		data = {
@@ -35,6 +34,7 @@ class SkypeAdapter:
 		return tokens['access_token']
 	
 	def __post(self, token, message):
+		""" MicrosoftBotFrameworkのチャット投稿用RESTAPIを叩く """
 		
 		headers = { 
 			'Authorization' : 'Bearer ' + token,

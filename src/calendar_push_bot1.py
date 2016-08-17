@@ -3,6 +3,7 @@
 from skype_adapter import SkypeAdapter
 from ical_adapter import ICalAdapter
 from datetime import date
+import skype_config1 as s
 
 def lambda_handler(event, context):
 	"""Lambda使う場合のエントリポイント"""
@@ -13,7 +14,7 @@ def lambda_handler(event, context):
 	if message_list:
 		message = "ズバリ、今日はこのイベントがあるでしょう！" + reduce( lambda x,y: x+y, message_list)
 		print message
-		SkypeAdapter().postConversation(message)
+		SkypeAdapter(s).postConversation(message)
 
 
 if __name__ == "__main__":
@@ -25,5 +26,5 @@ if __name__ == "__main__":
 	if message_list:
 		message = "ズバリ、今日はこのイベントがあるでしょう！" + reduce( lambda x,y: x+y, message_list)
 		print message
-		SkypeAdapter().postConversation(message)
+		SkypeAdapter(s).postConversation(message)
 

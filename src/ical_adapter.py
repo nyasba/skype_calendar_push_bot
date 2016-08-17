@@ -20,6 +20,15 @@ class ICalAdapter:
 		
 		return [ self.__convert_message(e)  for e in todays_internal_events ]
 	
+	def getTodaysExternalEventList(self, today):
+		""" 今日開催される外部イベントリストを返却する """
+		
+		c = vobject.readOne(requests.get(i.URL).text)
+		todays_external_events = [ e for e in c.vevent_list if self.__external(e) and self.__today(e, today) ]
+		for e in todays_external_events:
+			print e.prettyPrint()
+		
+		return [ self.__convert_message(e)  for e in todays_external_events ]
 	
 	def __internal(self, event):
 		return True if event.x_confluence_subcalendar_type.value == 'custom' else False
@@ -28,18 +37,16 @@ class ICalAdapter:
 		return True if event.x_confluence_subcalendar_type.value == 'other' else False
 	
 	def __today(self, event, today):
-		return self.__today_check(event.dtstart.value, event.dtend.value, today)
+		return self.__today_check(event.dtstart.value, today)
 	
-	def __today_check(self, start, end, today):
+	def __today_check(self, start, today):
 		""" 今日開催されるイベントかどうか """
-		if isinstance(start, datetime) and isinstance(end, datetime):
+		if isinstance(start, datetime):
 			start_date = self.__to_jst(start).date()
-			end_date = self.__to_jst(end).date()
-			return start_date <= today and today <= end_date
+			return start_date == today
 		
-		if isinstance(start, date) and isinstance(end, date):
-			return start <= today and today <= end
-			
+		if isinstance(start, date):
+			return start == today
 		return False
 	
 	

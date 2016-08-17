@@ -1,4 +1,4 @@
-src/*_config.py
+src/*_config*.py
 src/*.pyc
 src/dateutil
 src/python_dateutil-*

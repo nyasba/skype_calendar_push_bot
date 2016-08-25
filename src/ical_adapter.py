@@ -74,6 +74,8 @@ class ICalAdapter:
 			return schedule_format.format( start_jst, end_jst )
 		
 		if isinstance(start, date) and isinstance(end, date):
+			if self.__one_day_event(start, end):
+				return "{:%m/%d}".format(start)
 			return "{:%m/%d}-{:%m/%d}".format(start, end)
 		
 		return ""
@@ -81,6 +83,10 @@ class ICalAdapter:
 	def __same_day(self, start, end):
 		""" startとendが同じ日かどうかを判定する """		
 		return True if start.date() == end.date() else False
+
+	def __one_day_event(self, start, end):
+		""" startの翌日がendがかどうかを判定する """		
+		return True if start.date() + timedelta(days=1) == end.date() else False
 
 	def __to_jst(self, dt):
 		""" dtのタイムゾーンをJSTに変換する """		

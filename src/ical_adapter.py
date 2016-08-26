@@ -31,6 +31,16 @@ class ICalAdapter:
 		
 		return [ self.__convert_message(e)  for e in todays_external_events ]
 	
+	def getNextWeekExternalEventList(self, today):
+		""" 来週開催される外部イベントリストを返却する(金曜日起動で翌月曜からの１週間) """
+		
+		c = vobject.readOne(requests.get(i.URL).text)
+		next_week_external_events = [ e for e in c.vevent_list if self.__external(e) and self.__next_week(e, today) ]
+		for e in next_week_external_events:
+			print e.prettyPrint()
+		
+		return [ self.__convert_message(e)  for e in next_week_external_events ]
+	
 	def __internal(self, event):
 		return True if event.x_confluence_subcalendar_type.value == 'custom' else False
 	
@@ -39,6 +49,9 @@ class ICalAdapter:
 	
 	def __today(self, event, today):
 		return self.__today_check(event.dtstart.value, today)
+	
+	def __next_week(self, event, today):
+		return self.__next_week_check(event.dtstart.value, today)
 	
 	def __today_check(self, start, today):
 		""" 今日開催されるイベントかどうか """
@@ -50,6 +63,17 @@ class ICalAdapter:
 			return start == today
 		return False
 	
+	def __next_week_check(self, start, today):
+		""" 来週開催されるイベントかどうか """
+		initial = 3
+		term = 7
+		if isinstance(start, datetime):
+			start_date = self.__to_jst(start).date()
+			return today + timedelta(days=initial) <= start_date and start_date < today + timedelta(days=initial+term)
+		
+		if isinstance(start, date):
+			return today + timedelta(days=initial) <= start and start < today + timedelta(days=initial+term)
+		return False
 	
 	def __convert_message(self, event):
 		""" イベントを投稿用メッセージに変換する """

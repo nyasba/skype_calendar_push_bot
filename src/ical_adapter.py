@@ -3,6 +3,7 @@
 import vobject
 from datetime import datetime
 from datetime import date
+from datetime import timedelta
 from pytz import timezone
 import requests
 import ical_config as i
@@ -86,7 +87,7 @@ class ICalAdapter:
 
 	def __one_day_event(self, start, end):
 		""" startの翌日がendがかどうかを判定する """		
-		return True if start.date() + timedelta(days=1) == end.date() else False
+		return True if start + timedelta(days=1) == end else False
 
 	def __to_jst(self, dt):
 		""" dtのタイムゾーンをJSTに変換する """		
